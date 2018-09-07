@@ -1,18 +1,18 @@
-// GET and POST req go to /blog-posts
-// DELETE and PUT req go to /blog-posts/:id
-
-// Express to modularize - make separate files and app.use
-
 const express = require("express");
+const morgan = require("morgan");
+
+const bprouter = require("./blogPostsRouter");
 
 const app = express();
 
-const blogPostsRouter = require("./blogPosts");
+app.use(morgan("common"));
+app.use(express.json());
 
-app.use(express.static('public'));
+// you need to import `blogPostsRouter` router and route
 
-app.use('/blog-posts', blogPostsRouter);
+// requests to HTTP requests to `/blog-posts` to `blogPostsRouter`
+app.use('/blog-posts', bprouter);
 
 app.listen(process.env.PORT || 8080, () => {
-	console.log(`Your app is listening on port ${process.env.PORT || 8080}`);
+  console.log(`Your app is listening on port ${process.env.PORT || 8080}`);
 });
